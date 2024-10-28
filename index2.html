@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            background-color: #ffeef8; /* Light pink background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: #333;
+        }
+        h1 {
+            color: #e63946;
+        }
+        .tab {
+            overflow: hidden;
+            background-color: #f1f1f1;
+            margin-bottom: 20px;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #ccc;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        .tabcontent.active {
+            display: block;
+        }
+        #Prediction {
+            background-image: url('https://i.postimg.cc/LXBVjzGg/istockphoto-625147262-612x612.jpg'); /* Replace with your light image path */
+            background-size: cover;
+            background-position: center;
+            padding: 50px; /* Extra padding for aesthetic */
+            border-radius: 10px;
+            opacity: 0.9; /* Optional: slightly transparent for a softer look */
+        }
+        form {
+            background: rgba(255, 255, 255, 0.8); /* White background with transparency */
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px; /* Limit the width */
+            margin: auto; /* Center horizontally */
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%; /* Full width inputs */
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #e63946; /* Button color */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #d62839; /* Darker on hover */
+        }
+    </style>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";  
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";  
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</head>
+<body>
+
+<h1>Heart Disease Prediction</h1>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Prediction')">Heart Disease Prediction</button>
+    <button class="tablinks" onclick="openTab(event, 'About')">About</button>
+    <button class="tablinks" onclick="openTab(event, 'Doctors')">Doctors List</button>
+</div>
+
+<div id="Prediction" class="tabcontent active">
+    <h2>Heart Disease Prediction</h2>
+    <form method="post" action="/predict">
+        <label for="age">Age:</label>
+        <input type="text" name="age" required>
+
+        <label for="sex">Sex (1 = male; 0 = female):</label>
+        <input type="text" name="sex" required>
+
+        <label for="cp">Chest Pain Type (0-3):</label>
+        <input type="text" name="cp" required>
+
+        <label for="trtbps">Resting Blood Pressure:</label>
+        <input type="text" name="trtbps" required>
+
+        <label for="chol">Cholesterol:</label>
+        <input type="text" name="chol" required>
+
+        <label for="fbs">Fasting Blood Sugar > 120 mg/dl (1 = true; 0 = false):</label>
+        <input type="text" name="fbs" required>
+
+        <label for="restecg">Resting ECG results (0-2):</label>
+        <input type="text" name="restecg" required>
+
+        <label for="thalachh">Maximum Heart Rate:</label>
+        <input type="text" name="thalachh" required>
+
+        <label for="exng">Exercise Induced Angina (1 = yes; 0 = no):</label>
+        <input type="text" name="exng" required>
+
+        <label for="oldpeak">Old Peak:</label>
+        <input type="text" name="oldpeak" required>
+
+        <label for="slp">Slope of Peak Exercise ST Segment (0-2):</label>
+        <input type="text" name="slp" required>
+
+        <label for="caa">Number of Major Vessels (0-3):</label>
+        <input type="text" name="caa" required>
+
+        <label for="thall">Thalassemia (1 = normal; 2 = fixed defect; 3 = reversible defect):</label>
+        <input type="text" name="thall" required>
+
+        <input type="submit" value="Predict">
+    </form>
+    {% if prediction %}
+    <h3>{{ prediction }}</h3>
+    {% endif %}
+</div>
+
+<div id="About" class="tabcontent">
+    <h2>About Heart Disease</h2>
+    <p>Heart disease refers to a range of conditions that affect the heart. These conditions include:</p>
+    <ul>
+        <li>Coronary artery disease</li>
+        <li>Heart rhythm problems (arrhythmias)</li>
+        <li>Heart defects you're born with (congenital heart defects)</li>
+        <li>Heart valve disease</li>
+    </ul>
+    <p>Heart disease is a leading cause of death worldwide. Risk factors include:</p>
+    <ul>
+        <li>High blood pressure</li>
+        <li>High cholesterol</li>
+        <li>Smoking</li>
+        <li>Obesity</li>
+        <li>Diabetes</li>
+    </ul>
+    <p>For more information, please consult a healthcare provider.</p>
+</div>
+
+<div id="Doctors" class="tabcontent">
+    <h2>Doctors List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Specialty</th>
+                <th>Qualification</th>
+                <th>Experience</th>
+                <th>Location</th>
+                <th>Hospital</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dr. Ashok Seth</td>
+                <td>Interventional Cardiologist</td>
+                <td>MBBS, MD, DM, MRCP</td>
+                <td>38+ Years</td>
+                <td>New Delhi</td>
+                <td>Fortis Escorts Hospital, New Delhi</td>
+            </tr>
+            <tr>
+                <td>Dr. T S Kler</td>
+                <td>Interventional Cardiologist</td>
+                <td>MBBS, MD, DM, Fellow of Royal College of Physicians (FRCP), UK and Fellow of American College of Cardiology (FACC)</td>
+                <td>30+ Years</td>
+                <td>Gurgaon</td>
+                <td>FMRI, Gurgaon</td>
+            </tr>
+            <tr>
+                <td>Dr. Subhash Chandra</td>
+                <td>Interventional Cardiologist</td>
+                <td>MBBS, MD, DM, DNB, United States Medical Licensing Examination (USA) & PDF (Brussels, Belgium)</td>
+                <td>39+ Years</td>
+                <td>Delhi</td>
+                <td>BLK Hospital, Delhi</td>
+            </tr>
+            <tr>
+                <td>Dr. (Col.) Manjinder Singh Sandhu</td>
+                <td>Interventional Cardiologist</td>
+                <td>MBBS, MD, DM, DNB, Fellowship- American College of Cardiology</td>
+                <td>27+ Years</td>
+                <td>Gurgaon</td>
+                <td>Artemis Hospital, Gurgaon</td>
+            </tr>
+            <tr>
+                <td>Dr. Aparna Jaswal</td>
+                <td>Interventional Cardiologist</td>
+                <td>MBBS, MD, DNB, Training, Cardiac Electrophysiology at St. Luke's Hospital in Milwaukee
